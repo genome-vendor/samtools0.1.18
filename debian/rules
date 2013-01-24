@@ -9,14 +9,15 @@ CFLAGS += -fPIC
 DEB_MAKE_BUILD_TARGET = all all-recur razip lib
 DEB_MAKE_CHECK_TARGET = -C examples all
 
-DEB_DH_BUILDDEB_ARGS = -- -Z=xz
-
 clean::
 	$(RM) examples/calDepth examples/ex1.bam examples/ex1.bam.bai examples/ex1.fa.fai examples/ex1.glf examples/ex1.glfview.gz examples/ex1.pileup.gz examples/ex1a.bam examples/ex1b.bam examples/ex1f-rmduppe.bam examples/ex1f-rmdupse.bam examples/ex1f.bam examples/ex1f.rg examples/ex1.bcf
 
-binary-install/samtools::
-	install -m 644 bcftools/README $(CURDIR)/debian/samtools/usr/share/doc/samtools/README.bcftools
-	ln -s samtools.1.gz $(CURDIR)/debian/samtools/usr/share/man/man1/bcftools.1.gz
+binary-install/samtools0.1.18::
+	for BIN in bcftools razip samtools; do \
+		mv $(CURDIR)/debian/samtools0.1.18/usr/bin/$${BIN} $(CURDIR)/debian/samtools0.1.18/usr/bin/$${BIN}0.1.18;\
+	done
+	install -m 644 bcftools/README $(CURDIR)/debian/samtools0.1.18/usr/share/doc/samtools0.1.18/README.bcftools
+	ln -s samtools0.1.18.1.gz $(CURDIR)/debian/samtools0.1.18/usr/share/man/man1/bcftools0.1.18.1.gz
 
-binary-fixup/samtools::
-	sed -i 's|^#!/software/bin/python|#!/usr/bin/python|' $(CURDIR)/debian/samtools/usr/share/samtools/varfilter.py
+binary-fixup/samtools0.1.18::
+	sed -i 's|^#!/software/bin/python|#!/usr/bin/python|' $(CURDIR)/debian/samtools0.1.18/usr/share/samtools0.1.18/varfilter.py
